@@ -17,6 +17,7 @@ public class Blog {
     String title;
     String createdBy;
     String body;
+    String description;
 
     @CreationTimestamp
     Date createdAt;
@@ -51,6 +52,14 @@ public class Blog {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getCreatedAt() {
