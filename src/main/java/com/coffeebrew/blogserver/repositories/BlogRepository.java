@@ -1,7 +1,7 @@
 package com.coffeebrew.blogserver.repositories;
 
 import com.coffeebrew.blogserver.models.Blog;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface BlogRepository extends CrudRepository<Blog, String> {
+public interface BlogRepository extends PagingAndSortingRepository<Blog, String> {
 }

@@ -1,7 +1,6 @@
 package com.coffeebrew.blogserver.controllers;
 
 import com.coffeebrew.blogserver.models.Blog;
-import com.coffeebrew.blogserver.models.Tag;
 import com.coffeebrew.blogserver.services.BlogService;
 import org.jeasy.random.EasyRandom;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,9 +8,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -66,6 +70,22 @@ class BlogControllerTest {
 
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
         assertEquals(createdBlog, responseEntity.getBody());
+    }
+
+    @Test
+    void shouldGetSpecifiedPage() {
+        int pageSize = 10;
+        int pageNumber = 5;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        ArrayList<Blog> blogs = random.nextObject(ArrayList.class);
+        Page<Blog> receivedPage = new PageImpl<Blog>(blogs);
+
+        when(blogService.getByPage(pageable)).thenReturn(receivedPage);
+
+        ResponseEntity<Page<Blog>> responseEntity = target.getByPage(pageable);
+
+        assertEquals(receivedPage, responseEntity.getBody());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
 }

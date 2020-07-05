@@ -8,8 +8,15 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -53,5 +60,20 @@ class BlogServiceTest {
         Blog returnedBlog = target.create(blog);
 
         assertEquals(receivedBlog, returnedBlog);
+    }
+
+    @Test
+    void shouldReturnSelectedPageResult() {
+        int pageSize = 10;
+        int pageNumber = 5;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        ArrayList<Blog> blogs = random.nextObject(ArrayList.class);
+        Page<Blog> receivedPage = new PageImpl<Blog>(blogs);
+
+        when(blogRepository.findAll(pageable)).thenReturn(receivedPage);
+
+        Page<Blog> returnedPages = target.getByPage(pageable);
+
+        assertEquals(receivedPage, returnedPages);
     }
 }

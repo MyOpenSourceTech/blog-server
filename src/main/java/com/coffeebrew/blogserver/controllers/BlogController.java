@@ -3,6 +3,8 @@ package com.coffeebrew.blogserver.controllers;
 import com.coffeebrew.blogserver.models.Blog;
 import com.coffeebrew.blogserver.services.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,5 +29,10 @@ public class BlogController {
     public ResponseEntity<Blog> create(@RequestBody Blog blog) {
         Blog createdBlog = blogService.create(blog);
         return new ResponseEntity<>(createdBlog, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<Blog>> getByPage(Pageable pageable) {
+        return new ResponseEntity<>(blogService.getByPage(pageable), HttpStatus.OK);
     }
 }
