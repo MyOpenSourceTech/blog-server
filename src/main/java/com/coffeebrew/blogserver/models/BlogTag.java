@@ -1,11 +1,8 @@
 package com.coffeebrew.blogserver.models;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.annotation.Reference;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class BlogTag {
@@ -13,40 +10,30 @@ public class BlogTag {
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     String id;
-    @Reference(Blog.class)
-    String blogId;
-    @Reference(Tag.class)
-    String tagId;
+    @OneToOne(targetEntity = Blog.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "blog_id", referencedColumnName = "id")
+    Blog blog;
+    @OneToOne(targetEntity = Tag.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "tag_id", referencedColumnName = "id")
+    Tag tag;
 
     public BlogTag() {
     }
 
-    public BlogTag(String blogId, String tagId) {
-        this.blogId = blogId;
-        this.tagId = tagId;
+    public BlogTag(Blog blog, Tag tag) {
+        this.blog = blog;
+        this.tag = tag;
     }
 
-    public String getId() {
-        return id;
+    public void setBlog(Blog blog) {
+        this.blog = blog;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public Tag getTag() {
+        return tag;
     }
 
-    public String getBlogId() {
-        return blogId;
-    }
-
-    public void setBlogId(String blogId) {
-        this.blogId = blogId;
-    }
-
-    public String getTagId() {
-        return tagId;
-    }
-
-    public void setTagId(String tagId) {
-        this.tagId = tagId;
+    public void setTag(Tag tag) {
+        this.tag = tag;
     }
 }

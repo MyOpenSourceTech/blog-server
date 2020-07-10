@@ -8,8 +8,9 @@ import javax.persistence.Id;
 
 @Entity
 public class Tag {
-    @Id @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     String id;
 
     String label;
