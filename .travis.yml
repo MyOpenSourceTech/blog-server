@@ -1,1 +1,10 @@
 language: java
+addons:
+  mysql: "8.0.20"
+
+before_script:
+  - mysql -e 'CREATE DATABASE coffeebrew_blog;'
+  - mysql -e 'CREATE DATABASE coffeebrew_blog_test;'
+
+services:
+  - mysql
