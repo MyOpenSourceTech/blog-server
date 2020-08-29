@@ -67,4 +67,16 @@ class TagControllerTest {
         assertEquals(createdTag, responseEntity.getBody());
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
     }
+
+    @Test
+    void shouldReturnTagByLabel() {
+        String label = random.nextObject(String.class);
+        Tag receivedTag = random.nextObject(Tag.class);
+
+        when(service.getByLabel(label)).thenReturn(Optional.of(receivedTag));
+
+        ResponseEntity<Tag> optionalTag = target.getByLabel(label);
+
+        assertEquals(optionalTag.getBody(), receivedTag);
+    }
 }

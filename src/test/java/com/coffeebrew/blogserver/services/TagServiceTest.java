@@ -53,4 +53,16 @@ class TagServiceTest {
 
         assertEquals(receivedTag, returnedTag);
     }
+
+    @Test
+    void shouldGetTagByLabel() {
+        String label = random.nextObject(String.class);
+        Tag receivedTag = random.nextObject(Tag.class);
+
+        when(tagRepository.findByLabel(label)).thenReturn(Optional.of(receivedTag));
+
+        Optional<Tag> tag = target.getByLabel(label);
+
+        assertEquals(receivedTag, tag.get());
+    }
 }
