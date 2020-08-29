@@ -27,6 +27,6 @@ public class BlogTagController {
 
     @GetMapping
     public ResponseEntity<List<BlogTag>> getByBlogId(@Param("blogId") String blogId) {
-        return new ResponseEntity<List<BlogTag>>(blogTagService.getByBlogId(blogId), HttpStatus.CREATED);
+        return new ResponseEntity<List<BlogTag>>(blogTagService.getByBlogId(blogId), HttpStatus.OK);
     }
 }
